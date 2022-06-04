@@ -1,41 +1,104 @@
 const express = require('express');
-const myHelper = require('../util/helper')
-const underscore = require('underscore')
-
 const router = express.Router();
+// **********Q1****************
+ router.get('/movies',function(req,res){
+     let movies = ['Kgf' , 'Kai puche' ,'pushpa','gangs of waasepur','death in the gunj']
+    console.log(movies)
+    res.send('movies values returned')
+ });
 
-router.get('/test-me', function (req, res) {
-    myHelper.printDate()
-    myHelper.getCurrentMonth()
-    myHelper.getCohortData()
-    let firstElement = underscore.first(['Sabiha','Akash','Pritesh'])
-    console.log('The first element received from underscope function is '+firstElement)
-    res.send('My first ever api!')
-});
+//  ************Q2************
+  router.get('/movies/:indexNumber', function(req,res){
+    let movies = ['Kai puche','Kgf','pushpa','gangs of waasepur','death in the gunj']
+   let x = req.params.indexNumber
+    // if (req.params.indexNumber == movies[i]){
+        console.log('req  params' + JSON.stringify(req.params))
+        console.log('movie name is' +" " + req.params.indexNumber)
+        console.log(movies[x])
 
-router.get('/hello', function (req, res) {
-   
-    res.send('Hello there!')
-});
+        res.send('returned names acc to indexnumber')
+  });
 
-router.get('/candidates', function(req, res){
-    console.log('Query paramters for this request are '+JSON.stringify(req.query))
-    let gender = req.query.gender
-    let state = req.query.state
-    let district = req.query.district
-    console.log('State is '+state)
-    console.log('Gender is '+gender)
-    console.log('District is '+district)
-    let candidates = ['Akash','Suman']
-    res.send(candidates)
-})
+// //   ****************Q3.***************
+router.get('/moviesinfo/:indexNumber', function(req,res){
+    let movies = ['Kai puche','Kgf','pushpa','gangs of waasepur','death in the gunj']
+    let x = req.params.indexNumber
+    if (req.params.indexNumber < movies.length){
+        console.log(movies[x])
+    } else{
+        console.log('Error: Enter valid request')
+    }
+    res.send('return indexnumber or error')
+  });
 
-router.get('/candidates/:canidatesName', function(req, res){
-    console.log('The request objects is '+ JSON.stringify(req.params))
-    console.log('Candidates name is '+req.params.canidatesName)
-    res.send('Done')
-})
+// // ***********Q4***********
+//  router.get('/films' , function(req,res){
+//     let array =
+//     [ {
+//      'id': 1,
+//      'name': 'The Shining'
+//     }, {
+//      'id': 2,
+//      'name': 'Incendies'
+//     }, {
+//      'id': 3,
+//      'name': 'Rang de Basanti'
+//     }, {
+//      'id': 4,
+//      'name': 'Finding Nemo'
+//     }]
+//     console.log(array) ;
+//     res.send('Return the entire array')
+// });
+router.get('/films', function(req,res){
+    const films =  [ {
+          "id": 1,
+          "name": "The Shining"
+         }, {
+          "id": 2,
+          "name": "Incendies"
+         }, {
+          "id": 3,
+          "name": "Rang de Basanti"
+         }, {
+          "id": 4,
+          "name": "Finding Nemo"
+         }]
+      res.send(films)      
+  });
 
+// //   *********Q5****************
+router.get('/films/:filmId ' , function(req,res){
+    // console.log('Query paramters for this request are '+JSON.stringify(req.query))
+    let array =
+    [ {
+     id: 1,
+     name: 'The Shining'
+    }, {
+     'id': 2,
+     'name': 'Incendies'
+    }, {
+     'id': 3,
+     name: 'Rang de Basanti'
+    }, {
+     id: 4,
+     'name': 'Finding Nemo'
+    }];
+    let x =req.query.filmId
+    for (let i=0 ; i < array.length ; i++){
+      if (req.params.filmId <= array.length && req.params.filmId !==0){
+        console.log('No movie exists with this id ')
+      } else {
+        let id = req.query.id
+        let name = req.query.name
+        console.log('id is '+ id  )
+        console.log('name is '+name)
+        console.log(array[x])
+      }
+    }
+    res.send('return the movie object ')
+  }) ;
 
 module.exports = router;
-// adding this comment for no reason
+
+
