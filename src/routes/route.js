@@ -7,6 +7,7 @@ const express = require('express') ;
 const app = express.Router() ;
 const router =express.Router() ;
 
+// **********************   Q1**********************
 app.get("/sol1", function (req, res) {
     //logic : sum of numbers is n(n+1)/2..so get sum of all numbers in array. now take sum of numbers till last digit in the array
     let arr= [1,2,3,5,6,7];
