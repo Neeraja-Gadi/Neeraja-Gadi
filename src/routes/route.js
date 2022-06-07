@@ -1,21 +1,14 @@
 const express = require('express');
 const router = express.Router();
+const bookModel = require('../models/bookModel')
+const Controller = require('../controllers/Controller') ;
 
-const bookModel = require("../models/bookModel");
 
-const BookController= require("../controllers/bookController")
-
-router.post("/createBook", BookController.createBook  )
-
-router.get("/Booklist", BookController.bookslist )  
-
-router.post("/getBooksInYear", BookController.getBooksInYear)
-
-router.post("/getParticularBooks", BookController.getParticularBooks)
-
-router.get("/getXINRBooks", BookController.getXINRBooks)
-
- router.get("/getRandomBooks", BookController.getRandomBooks)
+router.post('/createBook' , Controller.createBook) ;
+ router.post('/createAuthor' ,Controller.createAuthor) ;
+router.get ('/getauthor-books' , Controller.getauthor);
+router.get ('/getUpdatedPrice' , Controller.getUpdatedPrice);
+router.get ('/findBook' , Controller.findBook);
 
 
 module.exports = router;
