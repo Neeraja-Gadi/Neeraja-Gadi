@@ -36,7 +36,6 @@ const getauthor = async function (req, res) {
     let an= b[0].author_name ;
     res.send({ an, price } )  
  }
-//  priceRange[index] =  await AuthorModel.find(priceRange[index]).select({authorName :1, _id : 0})
 
 //  **********************Question-4******************
 const findBook = async function(req,res){
