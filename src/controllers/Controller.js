@@ -19,37 +19,37 @@ const createBook  = async function(req,res){
 // ******************Question 2 *********************
 
 const getauthor = async function (req, res) {
-    let a = await  authorModel.findOne({author_name:"Chetan Bhagat"} ).select({author_id : 1 ,_id : 0})
+    let a = await  authorModel.find({author_name:"Chetan Bhagat"} ).select({author_id : 1 ,_id : 0})
+    console.log(a)
     let b =await bookModel.find(a)
     res.send({data : b})
 }  ;
 
 
 // *********************Question-3 *****************
-const getUpdatedPrice = async function(req,res){
+ const getUpdatedPrice = async function(req,res){
     let a = await bookModel.findOneAndUpdate({name : "Two states"} , {$set : {price : 100}} , { new : true})
-     let b = await authorModel.find({author_id : a.author_id})
+           console.log(a)
+     let b = await authorModel.find({author_id : a.author_id}).select({author_name : 1 , _id :0})
+     console.log(b)
     let price =a.price
-    res.send({msg : a[0] ,  price})
+    let an= b[0].author_name ;
+    res.send({ an, price } )  
  }
-// **********************Question-4******************
+//  priceRange[index] =  await AuthorModel.find(priceRange[index]).select({authorName :1, _id : 0})
+
+//  **********************Question-4******************
 const findBook = async function(req,res){
     let a = await bookModel.find({   price : {$gte :50 , $lte: 100}}).select({ author_id : 1 , _id :0})
-    for( let i = 0 ; i< a.length; i++){
-        // LOGIC 
-    }
-    res.send({  data : a})
-}
+    // console.log(a)
+     for( let i = 0 ; i< a.length; i++){
+          a[i] = await  authorModel.find(a[i] ).select({author_name :1 ,_id :0})    
+     }
+      res.send({  data : a})
+ } ;
 
-// const findBook = async function (req, res){
-//     let findbookpricerange = await bookModel.find( {price : { $gte : 50 , $lte : 100 } } ).select({ author_id :1})
-//     let mapauthorname = map(x => x = await authorModel.find(findbookpricerange).select({authorName :1}))
-//     res.send({data : mapauthorname })
-// }
-
-
-module.exports.findBook = findBook;
+ module.exports.findBook = findBook;
 module.exports.getUpdatedPrice = getUpdatedPrice ;
-module.exports.getauthor = getauthor ;
+ module.exports.getauthor = getauthor ;
 module.exports.createBook=  createBook ;
 module.exports.createAuthor = createAuthor  ;
