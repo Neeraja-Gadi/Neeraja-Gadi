@@ -1,6 +1,7 @@
 const bookModel = require("../models/bookModel") ;
 const router = require("../routes/route");
-const authorModel =require('../models/authorModel')
+const authorModel =require('../models/authorModel');
+const { off } = require("../models/bookModel");
 
 // ****************Question-1****************
 const  createAuthor = async function (req,res){
@@ -47,8 +48,31 @@ const findBook = async function(req,res){
       res.send({  data : a})
  } ;
 
+//  ***************************Question-5*****************
+// const bookbyauthorid = async function (req,res){
+//     // Let x = req.params ;
+//     let a  = await bookModel.find().select({name :1 , _id : 0})
+//     // let b = await authorlist.find(author_id).
+//     console.log(a)
+    
+//     res.send({data : a})
+//     }
+
+// **************Question-6  ********************
+
+const authorlist = async function(req,res){
+  let a  = await  bookModel.find({ratings :{$gt : 4}}).select({author_id : 1 , _id : 0})
+   for  (i = 0 ; i < a.length ; i++) {
+        b = await authorModel.find({ $and : [{age : {$gt : 50}} , a[i]] }).select({author_name : 1 ,age :1 , _id : 0})
+   }
+   console.log(b);
+  res.send({msg : b})
+}
+
  module.exports.findBook = findBook;
 module.exports.getUpdatedPrice = getUpdatedPrice ;
  module.exports.getauthor = getauthor ;
 module.exports.createBook=  createBook ;
 module.exports.createAuthor = createAuthor  ;
+// module.exports.bookbyauthorid=bookbyauthorid ;
+module.exports.authorlist=  authorlist ;
