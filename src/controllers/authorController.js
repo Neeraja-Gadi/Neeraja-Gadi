@@ -18,38 +18,32 @@ const publisherDetails =async function (req,res) {
 }
 // *********************Q3******************
 
-const bookDetails = async function (req,res){
-    let infoBooks = req.body ;
-    let reqaId =req.body.author_id ;
-    let reqpId = req.body.publisher_id ;
-    console.log(reqaId) ;
-    if(!reqaId){
-         res.send({ msg :'author feild is required' })
-     }
-    else { 
-        let aid = await authorModel.findById(reqaId)
-        console.log(aid)
-         if(!aid){
-             res.send({msg : "Field value not valid"})
-         }
-         else {
-             if (!reqpId){
-                 res.send({ msg : "Publisher field id required"})
-             }
-             else {
-                    let pid = await publisherModel.findById(reqpId);
-                    console.log(pid)
-                    if(!pid){
-                        res.send({msg : "Field value not valid"})
-                    }
-                    else {
-                        let createdinfoBooks = await BookModel.create(infoBooks)
-                        res.send({msg : createdinfoBooks }) 
-                    }
-               }
-          }
-     }
- }
+
+ const bookDetails = async function(req, res) {
+    //validate author
+    let infoBooks = req.body
+    let reqauthorId = req.body.author_id
+    let reqpublisherId = req.body.publisher
+    //Author validation  
+    if (!reqauthorId) {
+        res.send({ Error: 'Author feild is required'  })
+    }
+    const authorId = await authorModel.findById(reqauthorId)
+    if (!authorId) {
+        res.send({ Error: "Field value not valid"})
+    }
+    //publisher validation  
+    if (!reqpublisherId) {
+        res.send({ Error: "Publisher feild is required" })
+    }
+    const publisherId = await publisherModel.findById(reqpublisherId)
+    if (!publisherId) { 
+        res.send({ Error: "Field value not valid" })
+    }
+    let bookCreated = await bookModel.create(infoBooks)
+    res.send({ data: bookCreated })
+}
+
 
 //  **********************Q4*****************************
  const alldetailsofbooks = async function(req,res){
@@ -65,16 +59,14 @@ const bookDetails = async function (req,res){
      )
 res.send({msg : a})
 }
-
    const bookswithspecs = async function(req,res){
         let b = await bookModel.find().populate('author_id').updateOne(
            {"author_id.rating" : {$gt:3.5}},
            {$inc : {price :10}} )
        res.send({msg : b})
-   }
-
-
-
+   res.send({msg: updatePrice})
+    }
+ //*************************************************** */ 
 module.exports.bookswithspecs=bookswithspecs
 module.exports.alldetailsofbooks = alldetailsofbooks
 module.exports.authordetails= authordetails
