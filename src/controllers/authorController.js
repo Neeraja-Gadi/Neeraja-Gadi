@@ -1,5 +1,6 @@
+const express = require('express');
+
 const publisherModel = require("../models/publisherModel");
-const BookModel = require ("../models/bookModel");
 const authorModel = require("../models/authorModel");
 const bookModel = require("../models/bookModel");
 // *********************Q1******************
@@ -23,7 +24,7 @@ const publisherDetails =async function (req,res) {
     //validate author
     let infoBooks = req.body
     let reqauthorId = req.body.author_id
-    let reqpublisherId = req.body.publisher
+    let reqpublisherId = req.body.publisher_id
     //Author validation  
     if (!reqauthorId) {
         res.send({ Error: 'Author feild is required'  })
@@ -55,16 +56,15 @@ const publisherDetails =async function (req,res) {
   const bookpublishupdate = async function (req, res) {
     let a = await bookModel.find().populate('author_id').populate('publisher_id').update(
         {'publisher_id.name': {$in: [ "Penguin","Harper Collins"]}},
-        {$set: {HardCover : true}} 
+        {$set: {isHardCover : true}} 
      )
-res.send({msg : a})
+           res.send({msg : a})
 }
    const bookswithspecs = async function(req,res){
         let b = await bookModel.find().populate('author_id').updateOne(
            {"author_id.rating" : {$gt:3.5}},
            {$inc : {price :10}} )
        res.send({msg : b})
-   res.send({msg: updatePrice})
     }
  //*************************************************** */ 
 module.exports.bookswithspecs=bookswithspecs
@@ -72,4 +72,4 @@ module.exports.alldetailsofbooks = alldetailsofbooks
 module.exports.authordetails= authordetails
 module.exports.publisherDetails= publisherDetails
 module.exports.bookDetails = bookDetails
-module.exports.bookpublishupdate=bookpublishupdate
+module.exports.bookpublishupdate= bookpublishupdate
