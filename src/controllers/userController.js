@@ -1,12 +1,14 @@
 const jwt = require("jsonwebtoken");
 const userModel = require("../models/userModel");
 
+// ******************QUESTION- 1******************************
+
 const createUser = async function (req, res) {
   let userData = req.body;
   let saveduserData = await userModel.create(userData);
     res.send({ msg: saveduserData });
 };
-// ***********************************************************
+// ******************QUESTION- 2******************************
  const loginuser = async function (req,res){
  let emailinfo = req.body.emailId ;
  let passlock = req.body.password ;
@@ -26,15 +28,9 @@ res.setHeader("x-auth-token" ,token)
  return res.send({token: token})
  } ;
 
-// ****************************************************************
-  // Once the login is successful, create the jwt token with sign function
-  // Sign function has 2 inputs:
-  // Input 1 is the payload or the object containing data to be set in token
-  // The decision about what data to put in token depends on the business requirement
-  // Input 2 is the secret
-  // The same secret will be used to decode tokens
-   
-  const getUserData = async function (req, res) {
+// ***********************QUESTION- 3****************************
+
+const getUserData = async function (req, res) {
   let userId = req.params.userId;
   let userDetails = await userModel.findById(userId);
   if (!userDetails)
@@ -42,7 +38,7 @@ res.setHeader("x-auth-token" ,token)
   res.send({ status: true, data: userDetails });
 };
 
-// ***************************************************************
+// ************************QUESTION- 4*****************************
 
  const updateUser = async function (req, res) {
   let userId = req.params.userId;
@@ -55,10 +51,7 @@ res.setHeader("x-auth-token" ,token)
    res.send({ status: updatedUser, data: updatedUser });
 };
 
-// **********************************************************************
-// Write a **DELETE api /users/:userId** that takes the userId in the path params 
-// and marks the isDeleted attribute for a user as true.
-//  Check that request must contain **x-auth-token** header. If absent, return a suitable error.
+// **************************QUESTION- 5********************************
 
 const deleteUser = async function(req,res){
   // let token = req.headers['x-Auth-token'] ;
