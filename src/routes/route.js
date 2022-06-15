@@ -6,10 +6,10 @@ router.post("/users", userController.createUser  )
 
 router.post("/login", userController.loginuser)
 
-router.get("/users/:userId",middleware.tokenPresentvalid, userController.getUserData)
+router.get("/users/:userId",middleware.tokenAuthentication, middleware.tokenAuthorisation, userController.getUserData)
 
-router.put("/users/:userId",middleware.tokenPresentvalid, userController.updateUser)
+router.put("/users/:userId",middleware.tokenAuthentication, middleware.tokenAuthorisation, userController.updateUser)
 
-router.delete("/users/:userId",middleware.tokenPresentvalid, userController.deleteUser )
+router.delete("/users/:userId",middleware.tokenAuthentication, middleware.tokenAuthorisation, userController.deleteUser )
 
 module.exports = router;
